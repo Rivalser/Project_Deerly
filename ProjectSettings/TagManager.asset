@@ -15,9 +15,9 @@ TagManager:
   - Enemy
   - EnvironmentCollider
   - 
-  - 
-  - 
-  - 
+  - GroundBase
+  - GroundObject
+  - GroundCollider
   - 
   - 
   - 
@@ -38,9 +38,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Player
-    uniqueID: 2476364171
-    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GroundBase
+    uniqueID: 3016949303
+    locked: 0
+  - name: GroundDecoration
+    uniqueID: 527548291
+    locked: 0
+  - name: GroundObject
+    uniqueID: 1881200577
+    locked: 0
+  - name: Entity
+    uniqueID: 151727863
+    locked: 0
+  - name: Player
+    uniqueID: 2476364171
     locked: 0
