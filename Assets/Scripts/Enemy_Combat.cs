@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class Enemy_Combat : MonoBehaviour
 {
@@ -11,26 +10,39 @@ public class Enemy_Combat : MonoBehaviour
     public float knockbackForce;
     public float stunTime;
     public LayerMask playerLayer;
+    public float cooldownTime = 3f;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private bool _isOnCooldown = false;
+
+    private IEnumerator CooldownCoroutine()
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            Debug.Log("Collision w player.");
-            //collision.gameObject.GetComponent<PlayerHealth>().ChangeHealth(-damage);
-        }
+        _isOnCooldown = true;
+        yield return new WaitForSeconds(cooldownTime);
+        _isOnCooldown = false;
+    }
+
+    private IEnumerator AttackAnimationCoroutine()
+    {
+        GetComponent<EnemyStateController>().SetState(EnemyStateController.EnemyState.Attacking, GetComponent<Animator>());
+        yield return new WaitForSeconds(1f);
+        GetComponent<EnemyStateController>().SetState(EnemyStateController.EnemyState.Idle, GetComponent<Animator>());
     }
 
     public void Attack()
     {
-       //Debug.Log("Attacking Player Now"); 
-       //Adott pontból kiindúlva adott sugárban keresi a Playerréteghez tartozó objektumokat.
-        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
-        if(hits.Length > 0)
+        if (!_isOnCooldown)
         {
-            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
-            hits[0].GetComponent<PlayerMovement>().Knockback(transform, knockbackForce, stunTime);
-         
+            //Adott pontból kiindúlva adott sugárban keresi a Playerréteghez tartozó objektumokat.
+            Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
+
+            StartCoroutine(AttackAnimationCoroutine());
+            StartCoroutine(CooldownCoroutine());
+            if (hits.Length > 0)
+            {
+                hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
+                hits[0].GetComponent<PlayerMovement>().Knockback(transform, knockbackForce, stunTime);
+            }
         }
     }
 }
