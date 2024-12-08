@@ -28,7 +28,7 @@ public class EnemyAIScript : MonoBehaviour
 
         _stateController.SetState(EnemyStateController.EnemyState.Idle, _animator);
 
-        InvokeRepeating(nameof(UpdatePath), 0f, .5f);
+        InvokeRepeating(nameof(UpdatePath), 0f, 1.0f);
     }
 
 
@@ -47,7 +47,6 @@ public class EnemyAIScript : MonoBehaviour
             return;
         }
 
-        _stateController.SetState(EnemyStateController.EnemyState.Moving, _animator);
 
         Vector2 direction = ((Vector2)_path.vectorPath[_currentWaypoint] - _rb.position).normalized;
         Vector2 force = direction * (speed * Time.deltaTime);
@@ -56,7 +55,11 @@ public class EnemyAIScript : MonoBehaviour
 
         float distance = Vector2.Distance(_rb.position, _path.vectorPath[_currentWaypoint]);
 
+        transform.localScale = force.x <= 0f ? new Vector3(-1f, 1f, 1f) : new Vector3(1f, 1f, 1f);
+
         if (distance < nextWaypointDistance) ++_currentWaypoint;
+        
+        _stateController.SetState(EnemyStateController.EnemyState.Moving, _animator);
     }
 
 

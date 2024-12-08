@@ -12,7 +12,7 @@ public class EnemyStateController : MonoBehaviour
     }
 
 
-    private static readonly Dictionary<EnemyState, string> _stateDescriptor = new()
+    private static readonly Dictionary<EnemyState, string> StateDescriptor = new()
     {
         { EnemyState.Idle, "isIdle"},
         { EnemyState.Moving, "isChasing"},
@@ -21,7 +21,7 @@ public class EnemyStateController : MonoBehaviour
 
 
     private EnemyState _state;
-    private bool needsUpdate;
+    private bool _needsUpdate;
     private Enemy_Combat _combatScript;
 
     void Start()
@@ -31,26 +31,26 @@ public class EnemyStateController : MonoBehaviour
 
     void Update()
     {
-        if (!needsUpdate) return;
+        if (!_needsUpdate) return;
 
-        if (_state is EnemyState.Attacking) _combatScript.Attack();
+        if (_state is EnemyState.Idle) _combatScript.Attack();
     }
 
     public EnemyStateController SetState(EnemyState state, Animator animator)
     {
         if (this._state == state)
         {
-            needsUpdate = false;
+            _needsUpdate = false;
             return this;
         }
 
-        animator.SetBool(_stateDescriptor[this._state], false);
+        animator.SetBool(StateDescriptor[this._state], false);
 
         this._state = state;
 
-        animator.SetBool(_stateDescriptor[this._state], true);
+        animator.SetBool(StateDescriptor[this._state], true);
 
-        needsUpdate = true;
+        _needsUpdate = true;
         return this;
     }
 
@@ -60,4 +60,3 @@ public class EnemyStateController : MonoBehaviour
         return this._state;
     }
 }
-

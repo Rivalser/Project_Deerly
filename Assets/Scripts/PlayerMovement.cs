@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButtonDown("Slash"))
+        if (Input.GetButtonDown("Slash"))
         {
             player_Combat.Attack();
         }
@@ -27,31 +27,28 @@ public class PlayerMovement : MonoBehaviour
     // FixedUpdate is called once 50x per sec
     void FixedUpdate()
     {
+        if (isKnockedBack != false) return;
 
-        if(isKnockedBack == false)
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        if (horizontal > 0 && transform.localScale.x < 0 ||
+           horizontal < 0 && transform.localScale.x > 0)
         {
-
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-
-            if(horizontal > 0 && transform.localScale.x < 0 ||
-                horizontal < 0 && transform.localScale.x > 0 )
-                {
-                    Flip();
-                }
-
-            anim.SetFloat("horizontal", Mathf.Abs(horizontal));
-            anim.SetFloat("vertical", Mathf.Abs(vertical));
-
-
-            rb.velocity = new Vector2(horizontal, vertical) * speed;
+            Flip();
         }
+
+        anim.SetFloat("horizontal", Mathf.Abs(horizontal));
+        anim.SetFloat("vertical", Mathf.Abs(vertical));
+
+
+        rb.velocity = new Vector2(horizontal, vertical) * speed;
     }
 
     void Flip()
     {
-        facingDirection *=-1;
-        transform.localScale = new Vector3 (transform.localScale.x *-1, transform.localScale.y, transform.localScale.z);
+        facingDirection *= -1;
+        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
     public void Knockback(Transform enemy, float force, float stunTime)
@@ -62,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(KnockbackCounter(stunTime));
     }
 
-    IEnumerator KnockbackCounter(float stunTime){
+    IEnumerator KnockbackCounter(float stunTime)
+    {
         yield return new WaitForSeconds(stunTime); //életerő respawn-hoz????
         rb.velocity = Vector2.zero;
         isKnockedBack = false;

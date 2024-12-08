@@ -18359,8 +18359,8 @@ MonoBehaviour:
   damage: 1
   attackPoint: {fileID: 79510307}
   weaponRange: 2
-  knockbackForce: 1
-  stunTime: 0
+  knockbackForce: 7
+  stunTime: 0.35
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
