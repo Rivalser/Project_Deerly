@@ -55,10 +55,10 @@ public class EnemyAIScript : MonoBehaviour
 
         float distance = Vector2.Distance(_rb.position, _path.vectorPath[_currentWaypoint]);
 
-        transform.localScale = force.x <= 0f ? new Vector3(-1f, 1f, 1f) : new Vector3(1f, 1f, 1f);
+        transform.localScale = _rb.velocity.x <= 0f ? new Vector3(-1f, 1f, 1f) : new Vector3(1f, 1f, 1f);
 
         if (distance < nextWaypointDistance) ++_currentWaypoint;
-        
+
         _stateController.SetState(EnemyStateController.EnemyState.Moving, _animator);
     }
 
