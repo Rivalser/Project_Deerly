@@ -50,9 +50,12 @@ TagManager:
   - name: GroundDecoration
     uniqueID: 527548291
     locked: 0
-  - name: GroundObject
+  - name: GroundObjectLow
     uniqueID: 1881200577
     locked: 0
   - name: Player
     uniqueID: 2476364171
+    locked: 0
+  - name: GroundObjectHigh
+    uniqueID: 3131032987
     locked: 0
