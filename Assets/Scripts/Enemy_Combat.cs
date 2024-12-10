@@ -11,6 +11,9 @@ public class Enemy_Combat : MonoBehaviour
     public LayerMask playerLayer;
     public float cooldownTime = 3f;
 
+    public LayerMask targetUnreachableLayer;
+    public Transform targetTransform;
+
 
     private bool _isOnCooldown = false;
 
@@ -30,18 +33,29 @@ public class Enemy_Combat : MonoBehaviour
 
     public void Attack()
     {
-        if (!_isOnCooldown)
-        {
-            //Adott pontból kiindúlva adott sugárban keresi a Playerréteghez tartozó objektumokat.
-            Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
+        if (_isOnCooldown) return;
 
-            if (hits.Length > 0)
-            {
-                StartCoroutine(AttackAnimationCoroutine());
-                StartCoroutine(CooldownCoroutine());
-                hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
-                hits[0].GetComponent<PlayerMovement>().Knockback(transform, knockbackForce, stunTime);
-            }
+        if (Physics2D.OverlapCircle(targetTransform.position, 1/2, targetUnreachableLayer))
+        {
+            Debug.Log("Character is not Attackable!");
+            return;
+        }
+        else
+        {
+            // Character is on the road
+            Debug.Log("Character is Attackable!");
+        }
+
+
+        //Adott pontból kiindúlva adott sugárban keresi a Playerréteghez tartozó objektumokat.
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
+
+        if (hits.Length > 0)
+        {
+            StartCoroutine(AttackAnimationCoroutine());
+            StartCoroutine(CooldownCoroutine());
+            hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
+            hits[0].GetComponent<PlayerMovement>().Knockback(transform, knockbackForce, stunTime);
         }
     }
 }
