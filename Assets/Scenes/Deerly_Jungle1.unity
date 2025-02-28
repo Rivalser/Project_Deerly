@@ -62187,7 +62187,7 @@ GameObject:
   - component: {fileID: 1901693787}
   - component: {fileID: 1901693786}
   m_Layer: 7
-  m_Name: Enemy_Ape
+  m_Name: Enemy_Ape_sima
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62352,14 +62352,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b927081b9aa27344085de7ed142a6552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 2
   attackRange: 2
   attackCooldown: 2
   playerDetectRange: 5
-  detectionPoint: {fileID: 0}
+  detectionPoint: {fileID: 1901693780}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &1901693787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62372,8 +62372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2289debb23b3fd418e5f973d9e95523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 0
+  currentHealth: 5
+  maxHealth: 5
 --- !u!1 &1961421344
 GameObject:
   m_ObjectHideFlags: 0
