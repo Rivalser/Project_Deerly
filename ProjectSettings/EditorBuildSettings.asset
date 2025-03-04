@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/MainMenu.unity
+    guid: 6bc252724defd32419cc769da65b3fc7
+  - enabled: 1
+    path: Assets/Scenes/Deerly_Jungle1.unity
+    guid: 67d1dd903273b084c895cd1f77c83342
   m_configObjects: {}
