@@ -8,17 +8,17 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - NoColliderInteractable
+  - 
   - Water
   - UI
   - Player
   - Enemy
-  - EnvironmentCollider
   - 
-  - GroundBase
-  - GroundObject
-  - GroundCollider
-  - Elevation
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -41,20 +41,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: GroundBase
-    uniqueID: 3016949303
-    locked: 0
-  - name: Entity
-    uniqueID: 151727863
-    locked: 0
-  - name: GroundDecoration
-    uniqueID: 527548291
-    locked: 0
-  - name: GroundObjectLow
-    uniqueID: 1881200577
-    locked: 0
-  - name: GroundObjectHigh
-    uniqueID: 3131032987
+  - name: Hill_Non_Collision-low
+    uniqueID: 931404999
     locked: 0
   - name: Player
     uniqueID: 2476364171
