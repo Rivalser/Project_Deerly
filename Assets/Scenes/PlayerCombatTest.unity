@@ -11893,6 +11893,7 @@ GameObject:
   - component: {fileID: 1786968791}
   - component: {fileID: 1786968792}
   - component: {fileID: 1786968793}
+  - component: {fileID: 1786968794}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -11976,7 +11977,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1818603125
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 5
   m_Sprite: {fileID: 840063116, guid: 27be63611183d914682a5066dc1befa7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -12079,3 +12080,17 @@ MonoBehaviour:
   damage: 1
   anim: {fileID: 1786968791}
   cooldown: 1
+--- !u!114 &1786968794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786968785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e24a3dcd7944cb58b434b15173deab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dotInterval: 2
+  healthChangeAmount: -1
