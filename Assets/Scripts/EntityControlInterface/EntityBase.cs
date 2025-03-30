@@ -8,7 +8,7 @@ namespace EntityControlInterface
 		public abstract void UpdateEntity();
 		public abstract void TransitionTo(TStateEnumerations newState);
 		public abstract float GetScoreForState(TStateEnumerations potentialState);
-		public abstract TStateEnumerations GetCurrentState(); // Let the state machine ask
+		public abstract TStateEnumerations GetCurrentState();
 
 		internal abstract void ExecuteCurrentStateLogic();
 	}
