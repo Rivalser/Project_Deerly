@@ -1,22 +1,37 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace EntityControlInterface
 {
-	public class DefaultStateMachineImpl : IStateMachine<DefaultEntityStates>
+	public class DefaultStateMachineImpl<TStateEnumerations> : IStateMachine<TStateEnumerations>
+		where TStateEnumerations : Enum
 	{
-		public override void UpdateEntity(EntityBase<DefaultEntityStates> entity)
-		{
-			if (entity == null) throw new NullReferenceException();
+		private readonly TStateEnumerations[] _stateValues;
 
-			var rand = new System.Random();
-			if (rand.Next(2) == 1)
+		public DefaultStateMachineImpl()
+		{
+			_stateValues = (TStateEnumerations[])Enum.GetValues(typeof(TStateEnumerations));
+			if (_stateValues.Length == 0)
 			{
-				entity.TransitionTo(DefaultEntityStates.Walking);
+				Debug.LogError($"Enum {typeof(TStateEnumerations).Name} has no values!");
 			}
-			else
+		}
+
+		public override void UpdateEntity(EntityBase<TStateEnumerations> entity)
+		{
+			if (entity is null) throw new ArgumentNullException(nameof(entity));
+			if (_stateValues?.Length == 0) return;
+
+			var bestState = _stateValues!
+				.OrderByDescending(state => entity.GetScoreForState(state))
+				.First();
+
+			if (!EqualityComparer<TStateEnumerations>.Default.Equals(bestState, entity.GetCurrentState()))
 			{
-				entity.TransitionTo(DefaultEntityStates.Idle);
+				entity.TransitionTo(bestState);
 			}
 		}
 	}
-}  // namespace EntityControlInterface
+} // namespace EntityControlInterface

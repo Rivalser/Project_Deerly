@@ -7,4 +7,4 @@ namespace EntityControlInterface
 	{
 		public abstract void UpdateEntity(EntityBase<TStateEnumerations> entity);
 	}
-}  // namespace EntityControlInterface
+} // namespace EntityControlInterface

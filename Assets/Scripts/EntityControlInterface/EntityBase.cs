@@ -5,7 +5,11 @@ namespace EntityControlInterface
 {
 	public abstract class EntityBase<TStateEnumerations> : MonoBehaviour where TStateEnumerations : Enum
 	{
-		public abstract void TransitionTo(TStateEnumerations newState);
 		public abstract void UpdateEntity();
+		public abstract void TransitionTo(TStateEnumerations newState);
+		public abstract float GetScoreForState(TStateEnumerations potentialState);
+		public abstract TStateEnumerations GetCurrentState(); // Let the state machine ask
+
+		internal abstract void ExecuteCurrentStateLogic();
 	}
-}  // namespace EntityControlInterface
+} // namespace EntityControlInterface
