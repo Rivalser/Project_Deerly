@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace EntityControlInterface
 {
-	public class DefaultStateMachineImpl<TStateEnumerations> : IStateMachine<TStateEnumerations>
+	public class DefaultStateMachineImpl<TStateEnumerations> : StateMachineBase<TStateEnumerations>
 		where TStateEnumerations : Enum
 	{
 		private readonly TStateEnumerations[] _stateValues;
