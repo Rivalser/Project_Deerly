@@ -10,28 +10,23 @@ namespace EntityControlInterface
 	{
 		private readonly TStateEnumerations[] _stateValues;
 
-		public DefaultStateMachineImpl()
+		public DefaultStateMachineImpl ()
 		{
-			_stateValues = (TStateEnumerations[])Enum.GetValues(typeof(TStateEnumerations));
-			if (_stateValues.Length == 0)
-			{
-				Debug.LogError($"Enum {typeof(TStateEnumerations).Name} has no values!");
-			}
+			_stateValues = (TStateEnumerations[])Enum.GetValues (typeof (TStateEnumerations));
+			if (_stateValues.Length == 0) Debug.LogError ($"Enum {typeof (TStateEnumerations).Name} has no values!");
 		}
 
-		public override void UpdateEntity(EntityBase<TStateEnumerations> entity)
+		public override void UpdateEntity (EntityBase<TStateEnumerations> entity)
 		{
-			if (entity is null) throw new ArgumentNullException(nameof(entity));
+			if (entity is null) throw new ArgumentNullException (nameof (entity));
 			if (_stateValues?.Length == 0) return;
 
 			var bestState = _stateValues!
-				.OrderByDescending(state => entity.GetScoreForState(state))
-				.First();
+				.OrderByDescending (state => entity.GetScoreForState (state))
+				.First ();
 
-			if (!EqualityComparer<TStateEnumerations>.Default.Equals(bestState, entity.GetCurrentState()))
-			{
-				entity.TransitionTo(bestState);
-			}
+			if (!EqualityComparer<TStateEnumerations>.Default.Equals (bestState, entity.GetCurrentState ()))
+				entity.TransitionTo (bestState);
 		}
 	}
 } // namespace EntityControlInterface

@@ -2,7 +2,7 @@ namespace EntityControlInterface
 {
 	public enum DefaultEntityStates
 	{
-		Idle,
-		Walking
+		Idle
+		, Walking
 	}
-}  // namespace EntityControlInterface
+} // namespace EntityControlInterface
