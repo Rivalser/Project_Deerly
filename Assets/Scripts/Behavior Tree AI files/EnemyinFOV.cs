@@ -8,12 +8,12 @@ public class CheckEnemyINFOVRange : Node // ezt figyeljuk, hogy benne van-e a ja
 {
     private static int _enemyLayerMask = 1 << 6; // Layer 6 is the enemy layer
 
-    private Transform _transform _transform;
+    private Transform _transform;
     private Animator _animator;
     
     public CheckEnemyINFOVRange(Transform transform)
     {
-        _tranfosrm = transform;
+        _transform = transform;
         _animator = transform.GetComponent<Animator>();
     }
 
@@ -23,18 +23,18 @@ public class CheckEnemyINFOVRange : Node // ezt figyeljuk, hogy benne van-e a ja
         if (t == null)
         {
             Collider[] colliders = Physics.OverlapSphere(
-                _transform.position, EnemyBT.FOVRAnge, _enemyLayerMask);
+                _transform.position, EnemyBT.FOVRange, _enemyLayerMask);
             
             if (colliders.Length > 0)
             {
                 parent.parent.SetData("target", colliders[0].transform);
-                _animator.SetBool("Walking" true);
+                _animator.SetBool("Walking", true);
                 
-                state = NodeState.SUCCES;
+                state = NodeState.SUCCESS;
                 return state;
             }    
 
-                satte = NodeState.FAILURE;
+                state = NodeState.FAILURE;
                 return state;
         }       
     }

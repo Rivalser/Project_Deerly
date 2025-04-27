@@ -48,12 +48,12 @@ public class TaskPatrol : Node
             }
             else
             {
-                _transform.position = Vector3.MoveTowards(_transform.position, wp.position, EnemyBT.speed * _waitTime.delataTime);
+                _transform.position = Vector3.MoveTowards(_transform.position, wp.position, EnemyBT.speed * Time.delataTime);
                 _transform.LookAt(wp.position);
             }
         }
 
-        state = NodeState.Running;
+        state = NodeState.RUNNING;
         return state;
     }
 }

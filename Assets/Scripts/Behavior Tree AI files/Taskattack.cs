@@ -4,38 +4,48 @@ using UnityEngine;
 
 using BehaviorTree;
 
-public class CheckEnemyInAttackRange : Node
+public class TaskAttack : Node
 {
-    private static int _enemyLayerMask 1 << 6;
-
-    private Transform _tranfsorm;
     private Animator _animator;
 
-    public CheckEnemyInAttackRange(Transform transform)
+    private Transform _lastTarget;
+    private EnemyManager _enemyManager;
+
+    private float _attackTime = 1f;
+    private float _attackCounter = 0f;
+
+    public TaskAttack(Transform transform)
     {
-        _tranfsorm = transform;
         _animator = transform.GetComponent<Animator>();
     }
 
     public override NodeState Evaluate()
     {
-        object = GetDate("target");
-        if (object == null)
+        Transform target = (Transform)GetData("target");
+        if (target != _lastTarget)
         {
-            state = NodeState.FAILURE;
-            return state;
+            _enemyManager = target.GetComponent<EnemyManager>();
+            _lastTarget = target;
         }
 
-        _tranfsorm target = (Transform)t;
-        if (Vector3.Distance(_tranfsorm.position, target.position) <= GuardBT.attackRange)
+        _attackCounter += Time.deltaTime;
+        if (_attackCounter >= _attackTime)
         {
-            _animator-SetBool("Attacking", true);
-            _animator.SetBool("Walking", false);
-            state = NodeState.SUCCES;
-            return state;
+            bool enemyIsDead = _enemyManager.TakeHit();
+            if (enemyIsDead)
+            {
+                ClearData("target");
+                _animator.SetBool("Attacking", false);
+                _animator.SetBool("Walking", true);
+            }
+            else
+            {
+                _attackCounter = 0f;
+            }
         }
 
-        state = NodeSTate.FAILURE;
+        state = NodeState.RUNNING;
         return state;
     }
+
 }

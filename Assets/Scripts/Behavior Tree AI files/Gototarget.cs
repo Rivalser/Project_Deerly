@@ -7,21 +7,24 @@ using BehaviorTree;
 public class TaskGoToTarget : Node
 {
     private Transform _transform;
-    _transform = transform;
 
-
+    public TaskGoToTarget(Transform transform)
+    {
+        _transform = transform;
+    }
+    
  public override NodeState Evaluate()
  { 
-    Transform target (Transform)GetData("target");
+    Transform target = (Transform)GetData("target");
 
-    if (Vector3.Distamce(_transform.position, target.position) >0.01f)
+    if (Vector3.Distance(_transform.position, target.position) >0.01f)
     {
         _transform.position = Vector3.MoveTowards(
-            _transform.position, target.position, EnemyBT.speed * Time.delata);
+            _transform.position, target.position, EnemyBT.speed * Time.deltaTime);
         _transform.LookAt(target.position);
     }
 
-    state = Node
+    state = NodeState.RUNNING; //elvileg meg hidas a sor enum ertek kell
     return state;
   }
 }

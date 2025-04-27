@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collectionc.Generic;
+using System.Collections.Generic;
 
 namespace BehaviorTree  //namspace ahhoz, hogy konnyen lehessen alkalmazni mas projektben is
 {
@@ -27,7 +27,7 @@ namespace BehaviorTree  //namspace ahhoz, hogy konnyen lehessen alkalmazni mas p
         public Node(List<Node> children)
         {
             foreach (Node child in children)
-            _Attach(child)
+            _Attach(child);
         }
         private void _Attach(Node node)
         {
@@ -61,7 +61,7 @@ namespace BehaviorTree  //namspace ahhoz, hogy konnyen lehessen alkalmazni mas p
 
          public bool ClearData(string key)
         { 
-            if (_dataContext.ConatainsKey(key))
+            if (_dataContext.ContainsKey(key))
             {
                 _dataContext.Remove(key);
                 return true;

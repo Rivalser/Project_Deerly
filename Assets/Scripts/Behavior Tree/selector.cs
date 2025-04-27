@@ -1,4 +1,4 @@
-using System.Collection.Generic;
+using System.Collections.Generic;
 
 namespace BehaviorTree
 {
@@ -9,26 +9,26 @@ namespace BehaviorTree
 
         public override NodeState Evaluate()
         {
-            bool anyChildIsRunning = false;
+            //bool anyChildIsRunning = false;
 
             foreach (Node node in children)
             {
                 switch (node.Evaluate())
                 {
                     case NodeState.FAILURE:
-                        continue
+                        continue;
                     case NodeState.SUCCESS:
                         state = NodeState.SUCCESS;
                         return state;
                     case NodeState.RUNNING:
-                        state = NodeState.Running;
+                        state = NodeState.RUNNING;
                         return state;
                     default:
                         continue;       
                 }
             }
 
-            state = NodeSate.FAILURE;
+            state = NodeState.FAILURE;
             return state;
         }
         
