@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 namespace BehaviorTree
 {
-    public class Sequence : Node
+    public class Selector : Node
     {
-        public Sequence() : base() { }
-        public Sequence(List<Node> children) : base(children) { }
+        public Selector() : base() { }
+        public Selector(List<Node> children) : base(children) { }
 
         public override NodeState Evaluate()
         {

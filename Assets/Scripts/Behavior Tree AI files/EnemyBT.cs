@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using BehaviorTree;
 
-public class GuardBT : Tree
+public class EnemyBT : Tree
 {
     public UnityEngine.Transform[] waypoints;
 
@@ -18,7 +18,7 @@ public class GuardBT : Tree
             //    new CheckEnemyInAttackRange(transform),
             //    new TaskAttack(transform),
             //}),
-            new Sequence(new List<Node>
+            new Sequence(new List<Node>  //new Selector esetleg? talán cserélni kell
             {
                 new CheckEnemyInFOVRange(transform),
                 new TaskGoToTarget(transform),

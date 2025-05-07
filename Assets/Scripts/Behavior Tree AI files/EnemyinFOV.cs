@@ -4,14 +4,14 @@ using UnityEngine;
 
 using BehaviorTree;
 
-public class CheckEnemyINFOVRange : Node // ezt figyeljuk, hogy benne van-e a jatekos a ai lato mezojeben 
+public class CheckEnemyInFOVRange : Node // ezt figyeljuk, hogy benne van-e a jatekos a ai lato mezojeben 
 {
     private static int _enemyLayerMask = 1 << 6; // Layer 6 is the enemy layer
 
     private Transform _transform;
     private Animator _animator;
     
-    public CheckEnemyINFOVRange(Transform transform)
+    public CheckEnemyInFOVRange(Transform transform)
     {
         _transform = transform;
         _animator = transform.GetComponent<Animator>();
@@ -23,13 +23,12 @@ public class CheckEnemyINFOVRange : Node // ezt figyeljuk, hogy benne van-e a ja
         if (t == null)
         {
             Collider[] colliders = Physics.OverlapSphere(
-                _transform.position, EnemyBT.FOVRange, _enemyLayerMask);
+                _transform.position, EnemyBT.fovRange, _enemyLayerMask);
             
             if (colliders.Length > 0)
             {
                 parent.parent.SetData("target", colliders[0].transform);
                 _animator.SetBool("Walking", true);
-                
                 state = NodeState.SUCCESS;
                 return state;
             }    
@@ -37,5 +36,7 @@ public class CheckEnemyINFOVRange : Node // ezt figyeljuk, hogy benne van-e a ja
                 state = NodeState.FAILURE;
                 return state;
         }       
+         state = NodeState.SUCCESS;
+         return state;
     }
 }
