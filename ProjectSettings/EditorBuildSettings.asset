@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Deerly_Jungle1.unity
     guid: 67d1dd903273b084c895cd1f77c83342
+  - enabled: 1
+    path: Assets/Scenes/Deerly_Lava.unity
+    guid: dc70f986388df4048a5ef3c2d4c1c85b
   m_configObjects: {}
