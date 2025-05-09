@@ -4,31 +4,47 @@ using UnityEngine.SceneManagement;
 public class EnemyManager : MonoBehaviour
 {
     private Enemy_Health[] enemies;
-    private bool allEnemiesDead = false;
+    private PickUpItem[] items;
+
+    private bool transitionStarted = false;
     private float checkDelay = 1f;
 
     private void Start()
     {
-        InvokeRepeating(nameof(CheckEnemies), checkDelay, checkDelay);
+        InvokeRepeating(nameof(CheckConditions), checkDelay, checkDelay);
     }
 
-    private void CheckEnemies()
+    private void CheckConditions()
     {
-        enemies = FindObjectsOfType<Enemy_Health>();
+        if (transitionStarted) return;
 
-        bool allDead = true;
+        enemies = FindObjectsOfType<Enemy_Health>();
+        items = FindObjectsOfType<PickUpItem>();
+
+        bool allEnemiesDead = true;
+        bool allItemsCollected = true;
+
         foreach (var enemy in enemies)
         {
             if (enemy != null && enemy.isAlive)
             {
-                allDead = false;
+                allEnemiesDead = false;
                 break;
             }
         }
 
-        if (allDead && !allEnemiesDead)
+        foreach (var item in items)
         {
-            allEnemiesDead = true;
+            if (item != null && !item.isCollected)
+            {
+                allItemsCollected = false;
+                break;
+            }
+        }
+
+        if (allEnemiesDead && allItemsCollected)
+        {
+            transitionStarted = true;
             LoadNextScene();
         }
     }
@@ -40,7 +56,7 @@ public class EnemyManager : MonoBehaviour
 
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
         {
-            Debug.Log("Minden enemy meghalt, betöltés: scene index " + nextSceneIndex);
+            Debug.Log("Minden enemy meghalt ÉS minden tárgy fel lett véve. Következő pálya betöltése...");
             SceneManager.LoadScene(nextSceneIndex);
         }
         else
