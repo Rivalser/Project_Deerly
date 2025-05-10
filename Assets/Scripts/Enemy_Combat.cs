@@ -1,36 +1,91 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class Enemy_Combat : MonoBehaviour
 {
-
     public int damage = 1;
     public Transform attackPoint;
     public float weaponRange;
     public float knockbackForce;
     public float stunTime;
     public LayerMask playerLayer;
+    public float cooldownTime = 3f;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public LayerMask targetUnreachableLayer;
+    public Transform targetTransform;
+
+
+    private bool _isOnCooldown = false;
+
+    private IEnumerator CooldownCoroutine()
     {
-        if(collision.gameObject.tag == "Player")
-        {
-            Debug.Log("Collision w player.");
-            //collision.gameObject.GetComponent<PlayerHealth>().ChangeHealth(-damage);
-        }
+        _isOnCooldown = true;
+        yield return new WaitForSeconds(cooldownTime);
+        _isOnCooldown = false;
+    }
+
+    private IEnumerator AttackAnimationCoroutine()
+    {
+        GetComponent<EnemyStateController>().SetState(EnemyStateController.EnemyState.Attacking, GetComponent<Animator>());
+        yield return new WaitForSeconds(1f);
+        GetComponent<EnemyStateController>().SetState(EnemyStateController.EnemyState.Idle, GetComponent<Animator>());
     }
 
     public void Attack()
     {
-       //Debug.Log("Attacking Player Now"); 
-       //Adott pontból kiindúlva adott sugárban keresi a Playerréteghez tartozó objektumokat.
-        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
-        if(hits.Length > 0)
+        if (_isOnCooldown) return;
+
+        if (Physics2D.OverlapCircle(targetTransform.position, 1/2, targetUnreachableLayer))
         {
+            Debug.Log("Character is not Attackable!");
+            return;
+        }
+        else
+        {
+            // Character is on the road
+            Debug.Log("Character is Attackable!");
+        }
+
+
+        //Adott pontból kiindúlva adott sugárban keresi a Playerréteghez tartozó objektumokat.
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, weaponRange, playerLayer);
+
+        if (hits.Length > 0)
+        {
+            StartCoroutine(AttackAnimationCoroutine());
+            StartCoroutine(CooldownCoroutine());
             hits[0].GetComponent<PlayerHealth>().ChangeHealth(-damage);
             hits[0].GetComponent<PlayerMovement>().Knockback(transform, knockbackForce, stunTime);
-         
         }
     }
 }
+/*
+public interface IStateController<TState> where TState : System.Enum
+{
+    void FixedUpdate();
+}
+
+public abstract class AEnemyState : IStateController<AEnemyState.State>
+{
+    public enum State
+    {
+        a,
+        b,
+        c
+    }
+
+    public abstract void FixedUpdate();
+
+    private float _updateTimestamp;
+
+}
+
+
+
+public class MyState : AEnemyState
+{
+    override public void FixedUpdate()
+    {
+    }
+}
+*/
