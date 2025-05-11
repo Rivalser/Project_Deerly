@@ -1,12 +1,14 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
     private Enemy_Health[] enemies;
     private PickUpItem[] items;
 
-    private bool transitionStarted = false;
+    [Header("Nyilak, amiket aktiválni kell")]
+    public GameObject[] arrowsToActivate;
+
+    private bool arrowsActivated = false;
     private float checkDelay = 1f;
 
     private void Start()
@@ -16,7 +18,7 @@ public class EnemyManager : MonoBehaviour
 
     private void CheckConditions()
     {
-        if (transitionStarted) return;
+        if (arrowsActivated) return;
 
         enemies = FindObjectsOfType<Enemy_Health>();
         items = FindObjectsOfType<PickUpItem>();
@@ -44,24 +46,14 @@ public class EnemyManager : MonoBehaviour
 
         if (allEnemiesDead && allItemsCollected)
         {
-            transitionStarted = true;
-            LoadNextScene();
-        }
-    }
+            arrowsActivated = true;
+            Debug.Log("Minden enemy és tárgy teljesítve — nyilak aktiválva!");
 
-    private void LoadNextScene()
-    {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextSceneIndex = currentSceneIndex + 1;
-
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
-        {
-            Debug.Log("Minden enemy meghalt ÉS minden tárgy fel lett véve. Következő pálya betöltése...");
-            SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            Debug.Log("Nincs több pálya a build settings-ben.");
+            foreach (var arrow in arrowsToActivate)
+            {
+                if (arrow != null)
+                    arrow.SetActive(true);
+            }
         }
     }
 }
