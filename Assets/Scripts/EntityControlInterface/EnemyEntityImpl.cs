@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -17,6 +18,7 @@ namespace EntityControlInterface
         public float attackRange = 1.5f;
         public LayerMask targetLayerMask;
         public Transform currentTarget;
+        public float attackCooldownTimer;
 
         public Transform[] waypoints;
         private readonly float _waitTimeAtWaypoint = 1f;
@@ -26,10 +28,12 @@ namespace EntityControlInterface
 
         private EnemyEntityStates _currentState = EnemyEntityStates.Idle;
         private int _currentWaypointIndex;
+        private bool _isOnCooldown;
         private bool _isWaitingAtWaypoint;
         private SpriteRenderer _spriteRenderer;
         private EnemyStateMachineImpl<EnemyEntityStates> _stateMachine;
         private float _waitCounter;
+
 
         private void Awake ()
         {
@@ -262,6 +266,14 @@ namespace EntityControlInterface
                 MoveTowardsAndFlipSprite (targetPosition);
         }
 
+        private IEnumerator CooldownCoroutine ()
+        {
+            _isOnCooldown = true;
+            yield return new WaitForSeconds (attackCooldownTimer);
+            _isOnCooldown = false;
+        }
+
+
         private void HandleAttackingState2D ()
         {
             if (!currentTarget)
@@ -270,10 +282,20 @@ namespace EntityControlInterface
                 return;
             }
 
+            if (_isOnCooldown)
+            {
+                Debug.Log ($"{gameObject.name} is on cooldown.");
+                return;
+            }
+
             FlipSpriteTowards (currentTarget.position);
 
             // TODO: Attack logic
-            Debug.Log($"{gameObject.name} is Attacking {currentTarget.name}.");
+            Debug.Log ($"{gameObject.name} is Attacking {currentTarget.name}.");
+
+            var combatScript = GetComponent<Enemy_Combat> ();
+            combatScript.Attack ();
+            StartCoroutine (CooldownCoroutine ());
         }
 
         private void MoveTowardsAndFlipSprite (Vector2 targetPosition)
